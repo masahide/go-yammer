@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/bmorton/go-yammer/schema"
 	"github.com/google/go-querystring/query"
+	"github.com/masahide/go-yammer/schema"
 )
 
 func (c *Client) VisitGroup(groupId string) error {

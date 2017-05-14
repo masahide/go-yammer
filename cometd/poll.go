@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func (c *Client) Poll(messageChan chan interface{}, stopChan chan bool) {
+func (c *Client) Poll(messageChan chan *ConnectionResponse, stopChan chan bool) {
 	for {
 		select {
 		case <-stopChan:

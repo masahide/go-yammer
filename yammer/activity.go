@@ -3,7 +3,7 @@ package yammer
 import (
 	"fmt"
 
-	"github.com/bmorton/go-yammer/schema"
+	"github.com/masahide/go-yammer/schema"
 )
 
 type CreateActivityParams struct {

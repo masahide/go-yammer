@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 
+	"github.com/google/go-querystring/query"
 	"github.com/masahide/go-yammer/schema"
 )
 

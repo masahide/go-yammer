@@ -1,9 +1,11 @@
 package schema
 
 type MessageFeed struct {
-	Messages   []*Message   `json:"messages"`
-	References []*Reference `json:"references"`
-	Meta       *Meta        `json:"meta"`
+	Messages           []*Message             `json:"messages"`
+	References         []*Reference           `json:"references"`
+	Meta               *Meta                  `json:"meta"`
+	ThreadedExtended   map[string]interface{} `json:"threaded_extended"`
+	ExternalReferences []interface{}          `json:"external_references"`
 }
 
 type Message struct {
@@ -53,4 +55,9 @@ type Realtime struct {
 	AuthenticationToken string `json:"authentication_token"`
 	ChannelId           string `json:"channel_id"`
 	URI                 string `json:"uri"`
+}
+
+type RealtimeURL struct {
+	AuthenticationToken string `json:"authentication_token"`
+	RealtimeURI         string `json:"realtimeURI"`
 }

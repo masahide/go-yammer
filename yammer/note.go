@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/bmorton/go-yammer/schema"
 	"github.com/google/go-querystring/query"
+	"github.com/masahide/go-yammer/schema"
 )
 
 type GetNoteOptions struct {

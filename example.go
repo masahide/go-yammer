@@ -1,44 +1,77 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"os"
-	"strconv"
+	"time"
 
 	"github.com/masahide/go-yammer/cometd"
-	"github.com/masahide/go-yammer/schema"
 	"github.com/masahide/go-yammer/yammer"
 )
 
-func main() {
-	client := yammer.New(os.Getenv("YAMMER_TOKEN"))
+type cache struct {
+	AccessToken  string
+	RefreshToken string
+	Expiry       time.Time
+	Extra        interface{}
+}
 
-	groupId, _ := strconv.Atoi(os.Getenv("YAMMER_GROUP"))
-	feed, err := client.GroupFeed(groupId)
+func loadCache(file string) cache {
+	var conf cache
+	f, err := os.Open(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dec := json.NewDecoder(f)
+	if err := dec.Decode(&conf); err != nil {
+		log.Fatal(err)
+	}
+	return conf
+}
+
+func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	conf := loadCache("cache.json")
+	client := yammer.New(conf.AccessToken)
+
+	realtime, err := client.Realtime()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	inbox, err := client.InboxFeedV2()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	rt := cometd.New(feed.Meta.Realtime.URI, feed.Meta.Realtime.AuthenticationToken)
+	rt := cometd.New(realtime.RealtimeURI, realtime.AuthenticationToken)
 	err = rt.Handshake()
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	rt.Subscribe(feed.Meta.Realtime.ChannelId)
-	messageChan := make(chan *schema.MessageFeed, 10)
+	rt.SubscribeToFeed(inbox.ChannelID)
+	messageChan := make(chan *cometd.ConnectionResponse, 10)
+	//messageChan := make(chan *schema.MessageFeed, 10)
 	stopChan := make(chan bool, 1)
 
-	log.Printf("Polling group ID: %d\n", groupId)
+	log.Printf("Polling Realtime channelID: %v\n", inbox.ChannelID)
 	go rt.Poll(messageChan, stopChan)
 	for {
 		select {
 		case m := <-messageChan:
-			message := m.Messages[0]
-			if message.IsThreadStarter() {
-				log.Printf("[%d] %s", message.SenderId, message.Body.Plain)
+			if m.Channel == "/meta/connect" {
+				continue
+			}
+			if m.Data.Type != "message" {
+				log.Printf("Data.Type is not message. channel:%#v", m)
+				continue
+			}
+			for _, mes := range m.Data.Feed.Messages {
+				log.Println(mes.SenderId, mes.Body.Parsed)
 			}
 		}
 	}
