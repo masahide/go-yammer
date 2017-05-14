@@ -5,9 +5,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/bmorton/go-yammer/cometd"
-	"github.com/bmorton/go-yammer/schema"
-	"github.com/bmorton/go-yammer/yammer"
+	"github.com/masahide/go-yammer/cometd"
+	"github.com/masahide/go-yammer/schema"
+	"github.com/masahide/go-yammer/yammer"
 )
 
 func main() {

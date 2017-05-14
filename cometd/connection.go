@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/bmorton/go-yammer/schema"
+	"github.com/masahide/go-yammer/schema"
 )
 
 type ConnectionRequest struct {

@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bmorton/go-yammer/schema"
+	"github.com/masahide/go-yammer/schema"
 )
 
 type CreateMessageParams struct {

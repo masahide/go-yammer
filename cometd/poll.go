@@ -3,7 +3,7 @@ package cometd
 import (
 	"fmt"
 
-	"github.com/bmorton/go-yammer/schema"
+	"github.com/masahide/go-yammer/schema"
 )
 
 func (c *Client) Poll(messageChan chan *schema.MessageFeed, stopChan chan bool) {
