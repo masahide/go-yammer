@@ -13,8 +13,9 @@ import (
 
 type CreateMessageParams struct {
 	Body        string `json:"body"`
-	GroupId     int    `json:"group_id"`
-	RepliedToId int    `json:"replied_to_id"`
+	GroupId     int    `json:"group_id,omitempty"`
+	RepliedToId int    `json:"replied_to_id,omitempty"`
+	DirectToId  int    `json:"direct_to_id,omitempty"`
 }
 
 func (c *Client) PostMessage(payload *CreateMessageParams) (*schema.Message, error) {
