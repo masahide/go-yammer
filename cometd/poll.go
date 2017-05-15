@@ -15,6 +15,7 @@ func (c *Client) Poll(messageChan chan *ConnectionResponse, stopChan chan bool) 
 			resp, err := c.connect()
 			if err != nil {
 				log.Println(err)
+				close(messageChan)
 				return
 			}
 			for _, r := range resp {

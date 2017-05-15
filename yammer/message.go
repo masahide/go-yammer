@@ -13,12 +13,14 @@ import (
 )
 
 type CreateMessageParams struct {
-	Body           string `json:"body"`
-	GroupId        int    `json:"group_id,omitempty"`
-	RepliedToId    int    `json:"replied_to_id,omitempty"`
-	DirectToId     int    `json:"direct_to_id,omitempty"`
-	InvitedUserIDs string `json:"invited_user_ids"`
-	AdditionalData string `json:"additional_data"`
+	Body            string `json:"body"`
+	GroupId         int    `json:"group_id,omitempty"`
+	RepliedToId     int    `json:"replied_to_id,omitempty"`
+	DirectToId      int    `json:"direct_to_id,omitempty"`
+	DirectToUserIDs string `json:"direct_to_user_ids"`
+	InvitedUserIDs  string `json:"invited_user_ids,omitempty"`
+	AdditionalData  string `json:"additional_data,omitempty"`
+	CC              string `json:"cc,omitempty"`
 }
 
 func (c *Client) PostMessage(payload *CreateMessageParams) (*schema.Message, error) {
@@ -37,6 +39,10 @@ func (c *Client) PostMessage(payload *CreateMessageParams) (*schema.Message, err
 	err = json.Unmarshal(body, &feed)
 	if err != nil {
 		return &schema.Message{}, err
+	}
+
+	if len(feed.Messages) == 0 {
+		return &schema.Message{}, fmt.Errorf("non feed.Messages, body :%s", body)
 	}
 
 	return feed.Messages[0], nil

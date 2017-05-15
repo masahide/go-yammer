@@ -66,8 +66,8 @@ func (c *Client) sendRequest(payload interface{}, verb string, endpoint string) 
 
 func debug(data []byte, err error) {
 	if err == nil {
-		fmt.Printf("%s\n\n", data)
+		log.Printf("debug:%s\n\n", data)
 	} else {
-		log.Fatalf("%s\n\n", err)
+		log.Fatalf("err:%s\n\n", err)
 	}
 }
