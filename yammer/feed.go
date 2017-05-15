@@ -39,7 +39,7 @@ func (c *Client) Realtime() (*schema.RealtimeURL, error) {
 	var realtime schema.RealtimeURL
 	err = json.Unmarshal(body, &realtime)
 	if err != nil {
-		return &schema.RealtimeURL{}, err
+		return &schema.RealtimeURL{}, fmt.Errorf("json.Unmarshal err:%s, body:%s", err, body)
 	}
 
 	return &realtime, nil
