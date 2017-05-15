@@ -28,6 +28,6 @@ type User struct {
 		LastMessageID int    `json:"last_message_id"`
 		LastMessageAt string `json:"last_message_at"`
 	} `json:"stats"`
-	Admin       bool   `json:"admin"`
+	Admin       string `json:"admin"`
 	NetworkName string `json:"network_name"`
 }
