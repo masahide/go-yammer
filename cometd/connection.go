@@ -2,6 +2,7 @@ package cometd
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/masahide/go-yammer/schema"
@@ -63,7 +64,7 @@ func (c *Client) connect() ([]*ConnectionResponse, error) {
 	var connResp []*ConnectionResponse
 	err = json.Unmarshal(body, &connResp)
 	if err != nil {
-		return []*ConnectionResponse{}, err
+		return []*ConnectionResponse{}, fmt.Errorf("err:%s, resBody:'%s'", err, body)
 	}
 
 	return connResp, nil
