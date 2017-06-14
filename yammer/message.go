@@ -38,7 +38,7 @@ func (c *Client) PostMessage(payload *CreateMessageParams) (*schema.Message, err
 	var feed schema.MessageFeed
 	err = json.Unmarshal(body, &feed)
 	if err != nil {
-		return &schema.Message{}, err
+		return &schema.Message{}, fmt.Errorf("err:%s, body :%s", err, body)
 	}
 
 	if len(feed.Messages) == 0 {
