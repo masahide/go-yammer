@@ -18,7 +18,7 @@ type CreateMessageParams struct {
 	RepliedToId     int    `json:"replied_to_id,omitempty"`
 	DirectToId      int    `json:"direct_to_id,omitempty"`
 	DirectToUserIDs string `json:"direct_to_user_ids"`
-	InvitedUserIDs  string `json:"invited_user_ids,omitempty"`
+	InvitedUserIDs  string `json:"invited_user_ids"`
 	AdditionalData  string `json:"additional_data,omitempty"`
 	CC              string `json:"cc,omitempty"`
 }
