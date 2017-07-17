@@ -76,6 +76,37 @@ func (c *Client) GroupFeed(id int) (*schema.MessageFeed, error) {
 	return &feed, nil
 }
 
+func (c *Client) ThreadFeed(id int) (*schema.MessageFeed, error) {
+	url := fmt.Sprintf("%s/api/v1/messages/in_thread/%d.json", c.baseURL, id)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return &schema.MessageFeed{}, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.bearerToken))
+	req.Header.Add("Yammer-Capabilities", "external_messaging,external_groups,system_request,user_sidebar,parsed_body_only2")
+
+	resp, err := c.connection.Do(req)
+	if err != nil {
+		log.Println(err)
+		return &schema.MessageFeed{}, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return &schema.MessageFeed{}, err
+	}
+
+	var feed schema.MessageFeed
+	err = json.Unmarshal(body, &feed)
+	if err != nil {
+		return &schema.MessageFeed{}, err
+	}
+
+	return &feed, nil
+}
+
 type FeedOptions struct {
 	IncludeThreadStarter bool `url:"include_thread_starter"`
 	ThreadsCount         int  `url:"threads_count"`
